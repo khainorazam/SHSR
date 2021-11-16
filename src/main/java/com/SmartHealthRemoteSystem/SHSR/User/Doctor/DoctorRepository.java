@@ -10,10 +10,10 @@ import com.google.firebase.cloud.FirestoreClient;
 import java.util.concurrent.ExecutionException;
 
 public class DoctorRepository {
-    public static final String COL_NAME = "Patient";
+    public static final String COL_NAME = "Doctor";
 
     //create and update function
-    public String savePatient(Doctor doctor)
+    public String saveDoctor(Doctor doctor)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture =
@@ -23,7 +23,7 @@ public class DoctorRepository {
     }
 
 
-    public Doctor getSensorDataDetails(String doctorId)
+    public Doctor getDoctor(String doctorId)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection(COL_NAME).document(doctorId);
@@ -38,7 +38,7 @@ public class DoctorRepository {
         }
     }
 
-    public String deletePatient(String doctorId) {
+    public String deleteDoctor(String doctorId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME).document(doctorId).delete();
         return "Document with Sensor Data Id " + doctorId + " has been deleted";
