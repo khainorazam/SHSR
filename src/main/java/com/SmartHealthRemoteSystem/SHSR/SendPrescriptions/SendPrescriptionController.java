@@ -6,7 +6,9 @@ import com.SmartHealthRemoteSystem.SHSR.SendDailyHealth.HealthStatus;
 import com.SmartHealthRemoteSystem.SHSR.SendDailyHealth.HealthStatusService;
 import com.SmartHealthRemoteSystem.SHSR.ViewDoctorPrescription.Prescription;
 import com.SmartHealthRemoteSystem.SHSR.ViewDoctorPrescription.PrescriptionService;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class SendPrescriptionController {
 
 }
