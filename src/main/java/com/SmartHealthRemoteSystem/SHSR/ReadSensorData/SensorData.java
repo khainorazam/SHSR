@@ -7,6 +7,7 @@ public class SensorData {
     private String sensorDataId;
     private String OxygenReading;
 
+
     public SensorData() {
     }
 
