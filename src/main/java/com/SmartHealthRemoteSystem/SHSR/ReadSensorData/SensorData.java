@@ -5,7 +5,7 @@ public class SensorData {
     private double bodyTemperature;
     private int timestamp;
     private String sensorDataId;
-    private String OxygenReading;
+    private String oxygenReading;
 
 
     public SensorData() {
@@ -16,7 +16,7 @@ public class SensorData {
         this.bodyTemperature = bodyTemperature;
         this.timestamp = timestamp;
         this.sensorDataId = sensorDataId;
-        this.OxygenReading= OxygenReading;
+        this.oxygenReading= OxygenReading;
     }
 
     public String getEcgReading() {
@@ -35,9 +35,9 @@ public class SensorData {
         this.bodyTemperature = bodyTemperature;
     }
 
-    public void setOxygenReading(String OxygenReading){this.OxygenReading=OxygenReading;}
+    public void setOxygenReading(String OxygenReading){this.oxygenReading=OxygenReading;}
 
-    public String getOxygenReading(){return OxygenReading;}
+    public String getOxygenReading(){return oxygenReading;}
 
     public int getTimestamp() {
         return timestamp;

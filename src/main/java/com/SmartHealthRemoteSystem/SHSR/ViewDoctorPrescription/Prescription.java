@@ -12,7 +12,7 @@ public class Prescription {
     private SensorData sensorData;
     private List<String> medicineList;
     private String prescriptionDescription;
-    private String DiagnosisAilmentDescription;
+    private String diagnosisAilmentDescription;
 
     public Prescription() {
     }
@@ -27,14 +27,14 @@ public class Prescription {
         this.sensorData = sensorData;
         this.medicineList = medicineList;
         this.prescriptionDescription = prescriptionDescription;
-        DiagnosisAilmentDescription = diagnosisAilmentDescription;
+        this.diagnosisAilmentDescription = diagnosisAilmentDescription;
     }
 
-    public String getprescriptionId() {
+    public String getPrescriptionId() {
         return prescriptionId;
     }
 
-    public void setprescriptionId(String prescriptionId) {
+    public void setPrescriptionId(String prescriptionId) {
         this.prescriptionId = prescriptionId;
     }
 
@@ -87,10 +87,10 @@ public class Prescription {
     }
 
     public String getDiagnosisAilmentDescription() {
-        return DiagnosisAilmentDescription;
+        return diagnosisAilmentDescription;
     }
 
     public void setDiagnosisAilmentDescription(String diagnosisAilmentDescription) {
-        DiagnosisAilmentDescription = diagnosisAilmentDescription;
+        this.diagnosisAilmentDescription = diagnosisAilmentDescription;
     }
 }

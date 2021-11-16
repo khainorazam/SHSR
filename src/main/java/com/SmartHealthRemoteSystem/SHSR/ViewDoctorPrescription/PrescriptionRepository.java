@@ -30,7 +30,7 @@ public class PrescriptionRepository {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture =
                 //auto create data ID by firebase
-                dbFirestore.collection(COL_NAME).document(prescription.getprescriptionId()).set(prescription);
+                dbFirestore.collection(COL_NAME).document(prescription.getPrescriptionId()).set(prescription);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 

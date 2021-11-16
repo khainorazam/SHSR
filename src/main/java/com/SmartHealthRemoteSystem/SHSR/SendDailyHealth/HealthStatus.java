@@ -4,7 +4,7 @@ import com.SmartHealthRemoteSystem.SHSR.ReadSensorData.SensorData;
 
 public class HealthStatus {
     //add health status Id to prevent conflict in database
-    private String HealthStatusId;
+    private String healthStatusId;
     private SensorData sensorData;
     private String additionalNotes;
     private String patientId;
@@ -15,7 +15,7 @@ public class HealthStatus {
     }
 
     public HealthStatus(String healthStatusId, SensorData sensorData, String additionalNotes, String patientId, String doctorId, int timestamp) {
-        this.HealthStatusId = healthStatusId;
+        this.healthStatusId = healthStatusId;
         this.sensorData = sensorData;
         this.additionalNotes = additionalNotes;
         this.patientId = patientId;
@@ -24,11 +24,11 @@ public class HealthStatus {
     }
 
     public String getHealthStatusId() {
-        return HealthStatusId;
+        return healthStatusId;
     }
 
     public void setHealthStatusId(String healthStatusId) {
-        HealthStatusId = healthStatusId;
+        healthStatusId = healthStatusId;
     }
 
     public SensorData getSensorData() {
