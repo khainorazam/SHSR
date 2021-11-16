@@ -3,21 +3,32 @@ package com.SmartHealthRemoteSystem.SHSR.SendDailyHealth;
 import com.SmartHealthRemoteSystem.SHSR.ReadSensorData.SensorData;
 
 public class HealthStatus {
-    SensorData sensorData;
-    String additionalNotes;
-    String patientId;
-    String doctorId;
-    int timestamp;
+    //add health status Id to prevent conflict in database
+    private String HealthStatusId;
+    private SensorData sensorData;
+    private String additionalNotes;
+    private String patientId;
+    private String doctorId;
+    private int timestamp;
 
     public HealthStatus() {
     }
 
-    public HealthStatus(SensorData sensorData, String additionalNotes, String patientId, String doctorId, int timestamp) {
+    public HealthStatus(String healthStatusId, SensorData sensorData, String additionalNotes, String patientId, String doctorId, int timestamp) {
+        this.HealthStatusId = healthStatusId;
         this.sensorData = sensorData;
         this.additionalNotes = additionalNotes;
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.timestamp = timestamp;
+    }
+
+    public String getHealthStatusId() {
+        return HealthStatusId;
+    }
+
+    public void setHealthStatusId(String healthStatusId) {
+        HealthStatusId = healthStatusId;
     }
 
     public SensorData getSensorData() {
