@@ -6,22 +6,30 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@RestController
+@RequestMapping("/api")
 public class PrescriptionRepository {
 
     public static final String COL_NAME = "Prescription";
-
+    @PostMapping("/prescription")
     public String CreatePrescription(Prescription prescription)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document();
+
         ApiFuture<WriteResult> collectionsApiFuture =
                 //auto create data ID by firebase
-                dbFirestore.collection(COL_NAME).document().set(prescription);
+                addedDocRef.set(prescription);
+        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime());
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
