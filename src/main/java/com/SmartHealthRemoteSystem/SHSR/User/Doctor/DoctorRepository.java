@@ -6,14 +6,20 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ExecutionException;
-
+@RestController
+@RequestMapping("/api")
 public class DoctorRepository {
     public static final String COL_NAME = "Doctor";
 
     //create and update function
-    public String saveDoctor(Doctor doctor)
+    @PostMapping("/Doctor")
+    public String saveDoctor(@RequestBody Doctor doctor)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture =

@@ -9,6 +9,11 @@ public class Doctor extends User {
     public Doctor() {
     }
 
+    //for the sake of testing in postman only
+    public Doctor(String userId) {
+        super(userId);
+    }
+
     public Doctor(String userId, String name, String contact, String hospital, String position) {
         super(userId, name, contact);
         this.hospital = hospital;

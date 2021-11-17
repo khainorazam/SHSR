@@ -8,11 +8,6 @@ public abstract class User {
     public User() {
     }
 
-    public User(String name, String contact) {
-        this.name = name;
-        this.contact = contact;
-    }
-
     public User(String userId, String name, String contact) {
         this.userId = userId;
         this.name = name;

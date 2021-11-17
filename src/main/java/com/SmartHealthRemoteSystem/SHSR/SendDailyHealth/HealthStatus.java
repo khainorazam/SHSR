@@ -2,6 +2,7 @@ package com.SmartHealthRemoteSystem.SHSR.SendDailyHealth;
 
 import com.SmartHealthRemoteSystem.SHSR.ReadSensorData.SensorData;
 
+
 public class HealthStatus {
     //add health status Id to prevent conflict in database
     private String healthStatusId;
@@ -35,7 +36,7 @@ public class HealthStatus {
     }
 
     public void setHealthStatusId(String healthStatusId) {
-        healthStatusId = healthStatusId;
+        this.healthStatusId = healthStatusId;
     }
 
     public SensorData getSensorData() {
