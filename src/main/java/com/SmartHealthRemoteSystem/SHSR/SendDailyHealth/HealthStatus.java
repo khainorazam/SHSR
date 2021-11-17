@@ -14,6 +14,13 @@ public class HealthStatus {
     public HealthStatus() {
     }
 
+    public HealthStatus(SensorData sensorData, String additionalNotes, String patientId, String doctorId) {
+        this.sensorData = sensorData;
+        this.additionalNotes = additionalNotes;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+    }
+
     public HealthStatus(String healthStatusId, SensorData sensorData, String additionalNotes, String patientId, String doctorId, int timestamp) {
         this.healthStatusId = healthStatusId;
         this.sensorData = sensorData;

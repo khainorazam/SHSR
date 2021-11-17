@@ -11,7 +11,13 @@ public class SensorData {
     public SensorData() {
     }
 
-    public SensorData(String ecgReading, double bodyTemperature, int timestamp, String sensorDataId,String OxygenReading) {
+    public SensorData(String ecgReading, double bodyTemperature, String oxygenReading) {
+        this.ecgReading = ecgReading;
+        this.bodyTemperature = bodyTemperature;
+        this.oxygenReading = oxygenReading;
+    }
+
+    public SensorData(String ecgReading, double bodyTemperature, int timestamp, String sensorDataId, String OxygenReading) {
         this.ecgReading = ecgReading;
         this.bodyTemperature = bodyTemperature;
         this.timestamp = timestamp;

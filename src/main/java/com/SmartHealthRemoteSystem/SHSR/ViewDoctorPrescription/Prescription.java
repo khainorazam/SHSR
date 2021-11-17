@@ -17,6 +17,15 @@ public class Prescription {
     public Prescription() {
     }
 
+    public Prescription(String doctorId, String patientId, SensorData sensorData, List<String> medicineList, String prescriptionDescription, String diagnosisAilmentDescription) {
+        this.doctorId = doctorId;
+        this.patientId = patientId;
+        this.sensorData = sensorData;
+        this.medicineList = medicineList;
+        this.prescriptionDescription = prescriptionDescription;
+        this.diagnosisAilmentDescription = diagnosisAilmentDescription;
+    }
+
     public Prescription(String prescriptionId, int timestamp, String doctorId,
                         String patientId, SensorData sensorData, List<String> medicineList,
                         String prescriptionDescription, String diagnosisAilmentDescription) {
