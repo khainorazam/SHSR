@@ -48,7 +48,7 @@ public class PatientRepository {
     }
 
 
-    public Patient getPatient(String patientId)
+    public static Patient getPatient(String patientId)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection(COL_NAME).document(patientId);
