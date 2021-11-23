@@ -2,14 +2,15 @@ package com.SmartHealthRemoteSystem.SHSR.ViewDoctorPrescription;
 
 import com.SmartHealthRemoteSystem.SHSR.ReadSensorData.SensorData;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Prescription {
     private String prescriptionId;
-    private int timestamp;
+    private String timestamp;
     private String doctorId;
     private String patientId;
-    private SensorData sensorData;
+    private String sensorDataId;
     private List<String> medicineList;
     private String prescriptionDescription;
     private String diagnosisAilmentDescription;
@@ -17,23 +18,23 @@ public class Prescription {
     public Prescription() {
     }
 
-    public Prescription(String doctorId, String patientId, SensorData sensorData, List<String> medicineList, String prescriptionDescription, String diagnosisAilmentDescription) {
+    public Prescription(String doctorId, String patientId, String sensorDataId, List<String> medicineList, String prescriptionDescription, String diagnosisAilmentDescription) {
         this.doctorId = doctorId;
         this.patientId = patientId;
-        this.sensorData = sensorData;
+        this.sensorDataId = sensorDataId;
         this.medicineList = medicineList;
         this.prescriptionDescription = prescriptionDescription;
         this.diagnosisAilmentDescription = diagnosisAilmentDescription;
     }
 
-    public Prescription(String prescriptionId, int timestamp, String doctorId,
-                        String patientId, SensorData sensorData, List<String> medicineList,
+    public Prescription(String prescriptionId, String  timestamp, String doctorId,
+                        String patientId, String sensorDataId, List<String> medicineList,
                         String prescriptionDescription, String diagnosisAilmentDescription) {
         this.prescriptionId = prescriptionId;
         this.timestamp = timestamp;
         this.doctorId = doctorId;
         this.patientId = patientId;
-        this.sensorData = sensorData;
+        this.sensorDataId = sensorDataId;
         this.medicineList = medicineList;
         this.prescriptionDescription = prescriptionDescription;
         this.diagnosisAilmentDescription = diagnosisAilmentDescription;
@@ -47,11 +48,11 @@ public class Prescription {
         this.prescriptionId = prescriptionId;
     }
 
-    public int getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(String  timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -71,12 +72,12 @@ public class Prescription {
         this.patientId = patientId;
     }
 
-    public SensorData getSensorData() {
-        return sensorData;
+    public String getSensorDataId() {
+        return sensorDataId;
     }
 
-    public void setSensorData(SensorData sensorData) {
-        this.sensorData = sensorData;
+    public void setSensorDataId(String sensorDataId) {
+        this.sensorDataId = sensorDataId;
     }
 
     public List<String> getMedicineList() {

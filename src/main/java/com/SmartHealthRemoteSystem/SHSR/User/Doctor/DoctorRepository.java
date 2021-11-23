@@ -6,20 +6,27 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.concurrent.ExecutionException;
-@RestController
-@RequestMapping("/api")
+@Repository
 public class DoctorRepository {
     public static final String COL_NAME = "Doctor";
 
-    //create and update function
-    @PostMapping("/Doctor")
-    public String saveDoctor(@RequestBody Doctor doctor)
+    public String createDoctor(Doctor doctor) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        //auto create data ID by firebase
+        DocumentReference AddedDocRed = dbFirestore.collection(COL_NAME).document();
+        doctor.setUserId(AddedDocRed.getId());
+        ApiFuture<WriteResult> collectionsApiFuture =AddedDocRed.set(doctor);
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    public String updateDoctor(Doctor doctor)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture =
@@ -47,6 +54,10 @@ public class DoctorRepository {
     public String deleteDoctor(String doctorId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME).document(doctorId).delete();
-        return "Document with Sensor Data Id " + doctorId + " has been deleted";
+
+        //deleting it from user table because it relates to that document/table
+        //userRepository.deleteUser(doctorId);
+
+        return "Document with Doctor Id " + doctorId + " has been deleted";
     }
 }

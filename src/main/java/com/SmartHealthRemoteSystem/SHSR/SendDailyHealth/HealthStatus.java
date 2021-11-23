@@ -2,29 +2,30 @@ package com.SmartHealthRemoteSystem.SHSR.SendDailyHealth;
 
 import com.SmartHealthRemoteSystem.SHSR.ReadSensorData.SensorData;
 
+import java.sql.Timestamp;
+
 
 public class HealthStatus {
     //add health status Id to prevent conflict in database
     private String healthStatusId;
-    private SensorData sensorData;
+    private String sensorDataId;
     private String additionalNotes;
     private String patientId;
     private String doctorId;
-    private int timestamp;
+    private String timestamp;
 
     public HealthStatus() {
     }
 
-    public HealthStatus(SensorData sensorData, String additionalNotes, String patientId, String doctorId) {
-        this.sensorData = sensorData;
+    public HealthStatus(String additionalNotes, String patientId, String doctorId) {
         this.additionalNotes = additionalNotes;
         this.patientId = patientId;
         this.doctorId = doctorId;
     }
 
-    public HealthStatus(String healthStatusId, SensorData sensorData, String additionalNotes, String patientId, String doctorId, int timestamp) {
+    public HealthStatus(String healthStatusId, String sensorDataId, String additionalNotes, String patientId, String doctorId, String  timestamp) {
         this.healthStatusId = healthStatusId;
-        this.sensorData = sensorData;
+        this.sensorDataId = sensorDataId;
         this.additionalNotes = additionalNotes;
         this.patientId = patientId;
         this.doctorId = doctorId;
@@ -39,12 +40,12 @@ public class HealthStatus {
         this.healthStatusId = healthStatusId;
     }
 
-    public SensorData getSensorData() {
-        return sensorData;
+    public String getSensorDataId() {
+        return sensorDataId;
     }
 
-    public void setSensorData(SensorData sensorData) {
-        this.sensorData = sensorData;
+    public void setSensorDataId(String sensorDataId) {
+        this.sensorDataId = sensorDataId;
     }
 
     public String getAdditionalNotes() {
@@ -71,11 +72,11 @@ public class HealthStatus {
         this.doctorId = doctorId;
     }
 
-    public int getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }

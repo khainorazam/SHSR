@@ -1,14 +1,15 @@
 package com.SmartHealthRemoteSystem.SHSR.SendDailyHealth;
 
+import com.SmartHealthRemoteSystem.SHSR.ReadSensorData.SensorData;
+import com.SmartHealthRemoteSystem.SHSR.ReadSensorData.SensorDataRepository;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,20 +17,28 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-@RestController
-@RequestMapping("/api")
+@Repository
 public class HealthStatusRepository {
+    private final SensorDataRepository sensorDataRepository;
     public static final String COL_NAME = "HealthStatus";
 
-    @PostMapping("/healthStatus")
-    public String CreateHealthStatus(HealthStatus healthStatus)
+    @Autowired
+    public HealthStatusRepository(SensorDataRepository sensorDataRepository) {
+        this.sensorDataRepository = sensorDataRepository;
+    }
+
+
+
+    public String CreateHealthStatus(HealthStatus healthStatus, String sensorDataId)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        //auto create data ID by firebase
         DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document();
+        healthStatus.setHealthStatusId(addedDocRef.getId());
+        healthStatus.setSensorDataId(sensorDataId);
         ApiFuture<WriteResult> collectionsApiFuture =
-                //auto create data ID by firebase
                 addedDocRef.set(healthStatus);
-        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime());
+        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime().toString());
 
         return collectionsApiFuture.get().getUpdateTime().toString();
 
@@ -38,13 +47,28 @@ public class HealthStatusRepository {
     public String UpdateHealthStatus(HealthStatus healthStatus)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document(healthStatus.getHealthStatusId());
         ApiFuture<WriteResult> collectionsApiFuture =
-                //auto create data ID by firebase
-                dbFirestore.collection(COL_NAME).document(healthStatus.getHealthStatusId()).set(healthStatus);
+                addedDocRef.set(healthStatus);
+        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime().toString());
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-    public List<HealthStatus> getListHealthStatus(String patientId)
+    public HealthStatus getHealthStatus(String healthStatusId) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection(COL_NAME).document(healthStatusId);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        DocumentSnapshot document = future.get();
+        HealthStatus tempHealthStatus = null;
+        if (document.exists()) {
+            tempHealthStatus = document.toObject(HealthStatus.class);
+            return tempHealthStatus;
+        } else {
+            return null;
+        }
+    }
+
+    public List<HealthStatus> getListHealthStatus()
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         Iterable<DocumentReference> documentReference = dbFirestore.collection(COL_NAME).listDocuments();
@@ -57,21 +81,20 @@ public class HealthStatusRepository {
             ApiFuture<DocumentSnapshot> future = documentReference1.get();
             DocumentSnapshot document = future.get();
             healthStatus = document.toObject(HealthStatus.class);
-
-            //Only query health status that is request by the patient
-            //Alt - can send all healthStatus info to service class but data will not secured
-            if(healthStatus.getPatientId().equals(patientId)){
-                healthStatusList.add(healthStatus);
-            }
+            healthStatusList.add(healthStatus);
         }
 
         return healthStatusList;
     }
 
 
-    public String deleteHealthStatus(String healthStatusId) {
+    public String deleteHealthStatus(String healthStatusId) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME).document(healthStatusId).delete();
-        return "Document with Sensor Data Id " + healthStatusId + " has been deleted";
+        DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document(healthStatusId);
+        ApiFuture<WriteResult> writeResult = addedDocRef.delete();
+
+        return "Document with Health Id " + healthStatusId + " has been deleted";
     }
+
+
 }

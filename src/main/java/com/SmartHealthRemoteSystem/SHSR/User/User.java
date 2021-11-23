@@ -1,16 +1,24 @@
 package com.SmartHealthRemoteSystem.SHSR.User;
 
 public abstract class User {
-    protected String userId;
-    protected String name;
-    protected String contact;
+    private String userId;
+    private String name;
+    private String password;
+    private String contact;
 
     public User() {
     }
 
-    public User(String userId, String name, String contact) {
+    public User(String userId, String name, String password, String contact) {
         this.userId = userId;
         this.name = name;
+        this.password = password;
+        this.contact = contact;
+    }
+
+    public User(String name, String password, String contact) {
+        this.name = name;
+        this.password = password;
         this.contact = contact;
     }
 
@@ -20,6 +28,14 @@ public abstract class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

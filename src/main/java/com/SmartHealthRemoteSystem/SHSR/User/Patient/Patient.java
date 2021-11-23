@@ -9,8 +9,14 @@ public class Patient extends User {
     public Patient() {
     }
 
-    public Patient(String userId, String name, String contact, String address, String emergencyContact) {
-        super(userId, name, contact);
+    public Patient(String name, String contact,String password, String address, String emergencyContact) {
+        super(name,contact,password);
+        this.address = address;
+        this.emergencyContact = emergencyContact;
+    }
+
+    public Patient(String userId, String name, String contact, String password, String address, String emergencyContact) {
+        super(userId, name, contact,password);
         this.address = address;
         this.emergencyContact = emergencyContact;
     }

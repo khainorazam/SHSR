@@ -6,34 +6,37 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
 
-@RestController
-@RequestMapping("/api")
+@Repository
 public class SensorDataRepository {
     public static final String COL_NAME = "SensorData";
 
-    @PostMapping("/sensorData")
-    public String CreateSensorData( SensorData sensorData)
+
+    public String CreateSensorData(SensorData sensorData)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        //auto create data ID by firebase
         DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document();
+        sensorData.setSensorDataId(addedDocRef.getId());
         ApiFuture<WriteResult> collectionsApiFuture =
-                //auto create data ID by firebase
                 addedDocRef.set(sensorData);
         ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime());
 
-        return collectionsApiFuture.get().getUpdateTime().toString();
+        return addedDocRef.getId();
     }
 
     public String UpdateSensorData(SensorData sensorData)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        //auto create data ID by firebase
+        DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document();
         ApiFuture<WriteResult> collectionsApiFuture =
-                //auto create data ID by firebase
                 dbFirestore.collection(COL_NAME).document(sensorData.getSensorDataId()).set(sensorData);
+        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime());
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
@@ -52,7 +55,7 @@ public class SensorDataRepository {
         }
     }
 
-    public String deletePatient(String sensorDataId) {
+    public String deleteSensorData(String sensorDataId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME).document(sensorDataId).delete();
         return "Document with Sensor Data Id " + sensorDataId + " has been deleted";

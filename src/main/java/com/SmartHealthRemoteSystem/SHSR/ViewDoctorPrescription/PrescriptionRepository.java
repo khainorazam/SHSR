@@ -6,6 +6,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,30 +16,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-@RestController
-@RequestMapping("/api")
+@Repository
 public class PrescriptionRepository {
 
     public static final String COL_NAME = "Prescription";
-    @PostMapping("/prescription")
+
     public String CreatePrescription(Prescription prescription)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        //auto create data ID by firebase
         DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document();
-
+        prescription.setPrescriptionId(addedDocRef.getId());
         ApiFuture<WriteResult> collectionsApiFuture =
-                //auto create data ID by firebase
                 addedDocRef.set(prescription);
-        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime());
+        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime().toString());
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
     public String UpdatePrescription(Prescription prescription)
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference addedDocRef = dbFirestore.collection(COL_NAME).document(prescription.getPrescriptionId());
         ApiFuture<WriteResult> collectionsApiFuture =
                 //auto create data ID by firebase
-                dbFirestore.collection(COL_NAME).document(prescription.getPrescriptionId()).set(prescription);
+                addedDocRef.set(prescription);
+        ApiFuture<WriteResult> writeResult = addedDocRef.update("timestamp", collectionsApiFuture.get().getUpdateTime().toString());
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
@@ -57,7 +59,7 @@ public class PrescriptionRepository {
         }
     }
 
-    public List<Prescription> getListPrescription(String userId)
+    public List<Prescription> getListPrescription()
             throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         Iterable<DocumentReference> documentReference = dbFirestore.collection(COL_NAME).listDocuments();
@@ -70,14 +72,7 @@ public class PrescriptionRepository {
             ApiFuture<DocumentSnapshot> future = documentReference1.get();
             DocumentSnapshot document = future.get();
             prescription = document.toObject(Prescription.class);
-
-            //Only query health status that is request by the patient
-            //The reason there is "OR" operation because doctor might want to see
-            //the list of prescription that he/she have give before.
-            //Alt - can send all healthStatus info to service class but data will not secure
-            if(prescription.getPatientId().equals(userId) || prescription.getDoctorId().equals(userId)){
-                prescriptionList.add(prescription);
-            }
+            prescriptionList.add(prescription);
         }
 
         return prescriptionList;
